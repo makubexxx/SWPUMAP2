@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="#89D3D3D3"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/addresstv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="终点" />
+
+        <EditText
+            android:id="@+id/addresset"
+            android:layout_width="match_parent"
+            android:editable="false"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <RadioGroup
+        android:id="@+id/popradio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/car"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="驾车"/>
+        <RadioButton
+            android:id="@+id/bus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="公交"/>
+        <RadioButton
+            android:id="@+id/walk"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="步行"/>
+    </RadioGroup>
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="导航"
+        android:background="@color/colorPrimary"/>
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="取消"
+        android:background="@color/grey_btn_text_color"/>
+
+
+</LinearLayout>

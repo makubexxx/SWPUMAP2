@@ -30,8 +30,15 @@
             android:text="主页面"
             android:textColor="@color/white"
             android:textSize="20sp" />
-
-
+        <Button
+            android:id="@+id/plan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="定位"
+            android:textColor="@color/white"
+            android:background="#03C5FF"
+            android:layout_centerVertical="true"/>
 
 
     </RelativeLayout>

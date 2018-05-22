@@ -1,6 +1,8 @@
 package com.example.lvqinglong.swpumap.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -40,6 +42,7 @@ import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.model.inner.GeoPoint;
 import com.baidu.mapapi.search.core.CityInfo;
 import com.baidu.mapapi.search.core.PoiInfo;
+import com.baidu.mapapi.search.core.RouteLine;
 import com.baidu.mapapi.search.core.SearchResult;
 import com.baidu.mapapi.search.geocode.GeoCodeOption;
 import com.baidu.mapapi.search.geocode.GeoCodeResult;
@@ -53,11 +56,13 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiIndoorResult;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
+import com.baidu.mapapi.search.route.RoutePlanSearch;
 import com.baidu.mapapi.search.sug.OnGetSuggestionResultListener;
 import com.baidu.mapapi.search.sug.SuggestionResult;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearchOption;
 import com.example.lvqinglong.swpumap.R;
+import com.example.lvqinglong.swpumap.overlayutil.OverlayManager;
 import com.example.lvqinglong.swpumap.overlayutil.PoiOverlay;
 
 import java.util.ArrayList;
@@ -93,6 +98,14 @@ public class MainActivity extends Activity  implements OnGetPoiSearchResultListe
     GeoCoder mGeoCoder;
     boolean isFirstLoc = true; // 是否首次定位
     private int loadIndex = 0;
+
+    //RoutePlan
+    private Button mSearchButton;
+    RouteLine mroute = null;
+    OverlayManager mrouteOverlay = null;
+    private TextView popupText = null;//泡泡view
+    RoutePlanSearch mSearch = null;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -323,8 +336,12 @@ public class MainActivity extends Activity  implements OnGetPoiSearchResultListe
             super.onPoiClick(index);
             PoiInfo poi = getPoiResult().getAllPoi().get(index);
             // if (poi.hasCaterDetails) {
+
+            showSingleChoiceDialog(poi);
+            //此处弹出POPWINDOWS
+         /*
             mPoiSearch.searchPoiDetail((new PoiDetailSearchOption())
-                    .poiUid(poi.uid));
+                    .poiUid(poi.uid));*/
             // }
             return true;
         }
@@ -348,4 +365,35 @@ public class MainActivity extends Activity  implements OnGetPoiSearchResultListe
         et_location.setAdapter(sugAdapter);
         sugAdapter.notifyDataSetChanged();
     }
+    int yourChoice;
+    private void showSingleChoiceDialog(PoiInfo poi){
+
+        final String[] items = { "跑步","驾车","公交" };
+        AlertDialog.Builder singleChoiceDialog =
+                new AlertDialog.Builder(MainActivity.this);
+        singleChoiceDialog.setTitle(poi.city+poi.address);
+        // 第二个参数是默认选项，此处设置为0
+        singleChoiceDialog.setSingleChoiceItems(items, 0,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        yourChoice = which;
+                    }
+                });
+        singleChoiceDialog.setPositiveButton("确定",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (yourChoice != -1) {
+                            Toast.makeText(MainActivity.this,
+                                    "你选择了" + items[yourChoice],
+                                    Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+        singleChoiceDialog.show();
+    }
+
+
 }
